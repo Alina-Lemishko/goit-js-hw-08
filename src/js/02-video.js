@@ -15,4 +15,12 @@ const playerKeyTime = function ({seconds}) {
 
 player.on('timeupdate', throttle(playerKeyTime, 1000))
 
-player.setCurrentTime(localStorage.getItem(localStorageKey));
+player.setCurrentTime(localStorage.getItem(localStorageKey)).then(function(seconds) {
+  seconds = localStorage.getItem(localStorageKey);
+}).catch(function(error) {
+    switch (error.name) {
+        case 'RangeError':
+        alert("the time was less than 0 or greater than the video’s duration");
+            break;
+    }
+});
